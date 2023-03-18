@@ -4,39 +4,43 @@
 
 function sortedFrequency(arr, num) {
 	function leftmostNumIdx(arr, num) {
+		let idx = -1;
 		let left = 0;
-		let right = arr.length;
-		let middle = 0;
-		while (left < right) {
-			middle = Math.floor((left + right) / 2);
+		let right = arr.length - 1;
+		while (left <= right) {
+			let middle = Math.floor((left + right) / 2);
 			if (arr[middle] === num) {
-				right = middle - 1;
-			} else if (arr[middle] > num) {
-				right = middle - 1;
-			} else if (arr[middle] < num) {
-				left = middle;
-			}
-		}
-		return middle;
-	}
-	function rightmostNumIdx(arr, num) {
-		let left = 0;
-		let right = arr.length;
-		let middle = 0;
-		while (left < right) {
-			middle = Math.floor((left + right) / 2);
-			if (arr[middle] === num) {
-				left = middle;
-			} else if (arr[middle] > num) {
+				idx = middle;
 				right = middle - 1;
 			} else if (arr[middle] < num) {
 				left = middle + 1;
+			} else {
+				right = middle - 1;
 			}
 		}
-		return middle;
+		return idx;
 	}
-	console.log(leftmostNumIdx(arr, num));
-	console.log(rightmostNumIdx(arr, num));
+	function rightmostNumIdx(arr, num) {
+		let idx = -1;
+		let left = 0;
+		let right = arr.length - 1;
+		while (left <= right) {
+			let middle = Math.floor((left + right) / 2);
+			if (arr[middle] === num) {
+				idx = middle;
+				left = middle + 1;
+			} else if (arr[middle] < num) {
+				left = middle + 1;
+			} else {
+				right = middle - 1;
+			}
+		}
+		return idx;
+	}
+	let leftResult = leftmostNumIdx(arr, num);
+	let rightResult = rightmostNumIdx(arr, num);
+	if (leftResult === -1) return -1;
+	else return rightResult - leftResult + 1;
 }
 
 sortedFrequency([1, 1, 2, 2, 2, 2, 3], 2);
